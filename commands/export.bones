@@ -68,6 +68,11 @@ command.options['url'] = {
     'description': 'URL to PUT updates to.'
 };
 
+command.options['tileliveUrl'] = {
+    'title': 'tileliveUrl=[url]',
+    'description': 'Connection URL for tilelive destination'
+};
+
 command.options['log'] = {
     'title': 'log',
     'description': 'Write crash logs to destination directory.'
@@ -483,11 +488,17 @@ command.prototype.tilelive = function (project, callback) {
                 bboxIndex: bboxIndex
             };
 
-            var to = {
-                protocol: opts.format + ':',
-                pathname: opts.filepath,
-                query: { batch: 100 }
-            };
+            var to = null;
+
+            if (opts.tileliveUrl) {
+                to = opts.tileliveUrl;
+            } else {
+                to = {
+                    protocol: opts.format + ':',
+                    pathname: opts.filepath,
+                    query: { batch: 100 }
+                };
+            }
 
             var scheme = tilelive.Scheme.create(opts.scheme, {
                 list: opts.list,
@@ -504,7 +515,7 @@ command.prototype.tilelive = function (project, callback) {
             var task = new tilelive.CopyTask(from, to, scheme, opts.job);
         }
 
-
+ 
         var errorfile = path.join(path.dirname(opts.job), path.basename(opts.job) + '-failed');
         if (!cmd.opts.quiet) console.warn('Writing errors to ' + errorfile);
 

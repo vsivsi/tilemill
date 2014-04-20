@@ -36,6 +36,7 @@
         "mapnik": "~1.4.2",
         "tilelive-mapnik": "~0.6.9",
         "tilelive": "~4.5.3",
+        "mongotiles": "~0.1.0",
         "carto": "~0.9.6",
         "millstone": "~0.6.12",
         "sphericalmercator": "~1.0.2",
